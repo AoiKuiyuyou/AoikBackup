@@ -666,9 +666,9 @@ SET VERSION_FLAG="!--version!"
 
 SET DRY_RUN_FLAG="!--dry-run!"
 
-ECHO 1>&2# +++++ [aoik_backup_git] STEP: 1K7G8: help_flag_check
+ECHO 1>&2%LOG_PREFIX%STEP: 1K7G8: help_flag_check
 IF [!HELP_FLAG!] == ["1"] (
-  ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 9C6A1: help_show
+  ECHO 1>&2%LOG_PREFIX%SUCCESS: 9C6A1: help_show
   ECHO aoik_backup_git.bat _OPTIONS_
   ECHO.
   ECHO `_OPTIONS_`:
@@ -739,17 +739,17 @@ IF [!HELP_FLAG!] == ["1"] (
   GOTO :exit_code_0
 )
 
-ECHO 1>&2# +++++ [aoik_backup_git] STEP: 2N3R4: version_flag_check
+ECHO 1>&2%LOG_PREFIX%STEP: 2N3R4: version_flag_check
 IF [!VERSION_FLAG!] == ["1"] (
-  ECHO 1>&2# +++++ [aoik_backup_git] STEP: 5D1F2: version_show
+  ECHO 1>&2%LOG_PREFIX%STEP: 5D1F2: version_show
   ECHO !VERSION!
   GOTO :exit_code_0
 )
 
-ECHO 1>&2# +++++ [aoik_backup_git] STEP: 9R6N2: opts_show
+ECHO 1>&2%LOG_PREFIX%STEP: 9R6N2: opts_show
 SET - >&2
 
-ECHO 1>&2# +++++ [aoik_backup_git] STEP: 4U2O8: vars_show
+ECHO 1>&2%LOG_PREFIX%STEP: 4U2O8: vars_show
 ECHO 1>&2SRC_DIR: !SRC_DIR!
 ECHO 1>&2GIT_DIR: !GIT_DIR!
 ECHO 1>&2ARCHIVE_PATH: !ARCHIVE_PATH!
@@ -768,170 +768,170 @@ ECHO 1>&2HELP_FLAG: !HELP_FLAG!
 ECHO 1>&2VERSION_FLAG: !VERSION_FLAG!
 ECHO 1>&2DRY_RUN_FLAG: !DRY_RUN_FLAG!
 
-ECHO 1>&2# +++++ [aoik_backup_git] STEP: 3J9D1: dry_run_flag_check
+ECHO 1>&2%LOG_PREFIX%STEP: 3J9D1: dry_run_flag_check
 IF [!DRY_RUN_FLAG!] == ["1"] (
-  ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 2X5M4: dry_run
+  ECHO 1>&2%LOG_PREFIX%SUCCESS: 2X5M4: dry_run
   GOTO :exit_code_0
 )
 
-ECHO 1>&2# +++++ [aoik_backup_git] STEP: 1Z5V3: src_dir_check
+ECHO 1>&2%LOG_PREFIX%STEP: 1Z5V3: src_dir_check
 IF NOT EXIST !SRC_DIR!\ (
-  ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 2D9I7: src_dir_not_exists: !SRC_DIR!
+  ECHO 1>&2%LOG_PREFIX%FAILURE: 2D9I7: src_dir_not_exists: !SRC_DIR!
   GOTO :exit_code_1
 )
 
-ECHO 1>&2# +++++ [aoik_backup_git] STEP: 4Z2E5: archive_old_path_check
+ECHO 1>&2%LOG_PREFIX%STEP: 4Z2E5: archive_old_path_check
 IF NOT [!ARCHIVE_PATH!] == [""] IF [!ARCHIVE_OLD_PATH!] == [""] (
-  ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 2G3A5: archive_old_path_empty
+  ECHO 1>&2%LOG_PREFIX%FAILURE: 2G3A5: archive_old_path_empty
   GOTO :exit_code_1
 )
 
-ECHO 1>&2# +++++ [aoik_backup_git] STEP: 4T6P5: old_move_postfix_check
+ECHO 1>&2%LOG_PREFIX%STEP: 4T6P5: old_move_postfix_check
 IF [!OLD_MOVE_POSTFIX!] == [""] (
-  ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 5N8B7: old_move_postfix_empty
+  ECHO 1>&2%LOG_PREFIX%FAILURE: 5N8B7: old_move_postfix_empty
   GOTO :exit_code_1
 )
 
-ECHO 1>&2# +++++ [aoik_backup_git] STEP: 5U8B1: git_exe_check
+ECHO 1>&2%LOG_PREFIX%STEP: 5U8B1: git_exe_check
 !GIT_EXE_PATH! --version
 IF ERRORLEVEL 1 (
-  ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 6C9R2: git_exe_path_invalid: !GIT_EXE_PATH!
+  ECHO 1>&2%LOG_PREFIX%FAILURE: 6C9R2: git_exe_path_invalid: !GIT_EXE_PATH!
   GOTO :exit_code_1
 )
 
 IF [!GIT_COMMIT_FLAG!] == ["1"] (
   IF [!GIT_ADD_FLAG!] == ["1"] (
-    ECHO 1>&2# +++++ [aoik_backup_git] STEP: 5S2K8: git_add
+    ECHO 1>&2%LOG_PREFIX%STEP: 5S2K8: git_add
     !GIT_EXE_PATH! --git-dir !GIT_DIR! --work-tree !SRC_DIR! add -A
     IF ERRORLEVEL 1 (
-      ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 7X2L8: git_add
+      ECHO 1>&2%LOG_PREFIX%FAILURE: 7X2L8: git_add
       GOTO :exit_code_1
     )
   )
 
-  ECHO 1>&2# +++++ [aoik_backup_git] STEP: 8I6Z5: git_diff_index
+  ECHO 1>&2%LOG_PREFIX%STEP: 8I6Z5: git_diff_index
   !GIT_EXE_PATH! --git-dir !GIT_DIR! --work-tree !SRC_DIR! diff-index --quiet HEAD
 
   IF ERRORLEVEL 2 (
-    ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 9U2E3: git_diff_index
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 9U2E3: git_diff_index
     GOTO :exit_code_1
   )
 
   IF ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_git] STEP: 1W7J4: git_commit
+    ECHO 1>&2%LOG_PREFIX%STEP: 1W7J4: git_commit
     !GIT_EXE_PATH! --git-dir !GIT_DIR! --work-tree !SRC_DIR! commit -m !GIT_COMMIT_MSG!
 
     IF ERRORLEVEL 1 (
-      ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 2D8H5: git_commit
+      ECHO 1>&2%LOG_PREFIX%FAILURE: 2D8H5: git_commit
       GOTO :exit_code_1
     )
 
-    ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 3N6G1: git_commit: msg=!GIT_COMMIT_MSG!
+    ECHO 1>&2%LOG_PREFIX%SUCCESS: 3N6G1: git_commit: msg=!GIT_COMMIT_MSG!
   ) ELSE (
-    ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 4A2Q8: git_commit: no_change
+    ECHO 1>&2%LOG_PREFIX%SUCCESS: 4A2Q8: git_commit: no_change
   )
 )
 
 IF [!GIT_GC_FLAG!] == ["1"] (
-  ECHO 1>&2# +++++ [aoik_backup_git] STEP: 5C7P6: git_fsck
+  ECHO 1>&2%LOG_PREFIX%STEP: 5C7P6: git_fsck
   !GIT_EXE_PATH! --git-dir !GIT_DIR! --work-tree !SRC_DIR! fsck --full
 
   IF ERRORLEVEL 3 (
-    ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 6S1O2: git_fsck
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 6S1O2: git_fsck
     GOTO :exit_code_1
   )
 
   IF ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 7T8I4: git_fsck
+    ECHO 1>&2%LOG_PREFIX%SUCCESS: 7T8I4: git_fsck
   ) ELSE (
-    ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 8X1K3: git_fsck: no_change
+    ECHO 1>&2%LOG_PREFIX%SUCCESS: 8X1K3: git_fsck: no_change
   )
 
-  ECHO 1>&2# +++++ [aoik_backup_git] STEP: 9E2L7: git_reflog_expire
+  ECHO 1>&2%LOG_PREFIX%STEP: 9E2L7: git_reflog_expire
   !GIT_EXE_PATH! --git-dir !GIT_DIR! --work-tree !SRC_DIR! reflog expire --expire=now --all
 
   IF ERRORLEVEL 2 (
-    ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 1J8Z5: git_reflog_expire
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 1J8Z5: git_reflog_expire
     GOTO :exit_code_1
   )
 
   IF ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 2R3D7: git_reflog_expire
+    ECHO 1>&2%LOG_PREFIX%SUCCESS: 2R3D7: git_reflog_expire
   ) ELSE (
-    ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 3H9Y4: git_reflog_expire: no_change
+    ECHO 1>&2%LOG_PREFIX%SUCCESS: 3H9Y4: git_reflog_expire: no_change
   )
 
-  ECHO 1>&2# +++++ [aoik_backup_git] STEP: 4Q2P1: git_gc
+  ECHO 1>&2%LOG_PREFIX%STEP: 4Q2P1: git_gc
   !GIT_EXE_PATH! --git-dir !GIT_DIR! --work-tree !SRC_DIR! gc --prune=now
 
   IF ERRORLEVEL 2 (
-    ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 5U6B9: git_gc
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 5U6B9: git_gc
     GOTO :exit_code_1
   )
 
   IF ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 6M7T8: git_gc
+    ECHO 1>&2%LOG_PREFIX%SUCCESS: 6M7T8: git_gc
   ) ELSE (
-    ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 7F5O9: git_gc: no_change
+    ECHO 1>&2%LOG_PREFIX%SUCCESS: 7F5O9: git_gc: no_change
   )
 )
 
 IF NOT [!ARCHIVE_PATH!] == [""] IF [!OLD_MOVE_FLAG!] == ["1"] (
   IF EXIST !ARCHIVE_PATH! (
     IF EXIST !ARCHIVE_OLD_PATH! (
-      ECHO 1>&2# +++++ [aoik_backup_git] STEP: 8S4I6: archive_old_old_del: !ARCHIVE_OLD_PATH!
+      ECHO 1>&2%LOG_PREFIX%STEP: 8S4I6: archive_old_old_del: !ARCHIVE_OLD_PATH!
       DEL /F /Q !ARCHIVE_OLD_PATH!
 
       IF ERRORLEVEL 1 (
-        ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 9W5X2: archive_old_old_del: !ARCHIVE_OLD_PATH!
+        ECHO 1>&2%LOG_PREFIX%FAILURE: 9W5X2: archive_old_old_del: !ARCHIVE_OLD_PATH!
         GOTO :exit_code_1
       )
     )
 
-    ECHO 1>&2# +++++ [aoik_backup_git] STEP: 9B2Y5: archive_old_move
+    ECHO 1>&2%LOG_PREFIX%STEP: 9B2Y5: archive_old_move
 
     MOVE !ARCHIVE_PATH! !ARCHIVE_OLD_PATH!
 
     IF ERRORLEVEL 1 (
-      ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 6T9I3: archive_old_move: !ARCHIVE_OLD_PATH!
+      ECHO 1>&2%LOG_PREFIX%FAILURE: 6T9I3: archive_old_move: !ARCHIVE_OLD_PATH!
       GOTO :exit_code_1
     )
 
-    ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 5Z2V7: archive_old_move: !ARCHIVE_OLD_PATH!
+    ECHO 1>&2%LOG_PREFIX%SUCCESS: 5Z2V7: archive_old_move: !ARCHIVE_OLD_PATH!
   )
 )
 
-ECHO 1>&2# +++++ [aoik_backup_git] STEP: 8W4R6: archive_create
+ECHO 1>&2%LOG_PREFIX%STEP: 8W4R6: archive_create
 IF [!ARCHIVE_PATH!] == [""] (
-  ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 1K4C7: archive_create: empty_path_ignore
+  ECHO 1>&2%LOG_PREFIX%SUCCESS: 1K4C7: archive_create: empty_path_ignore
 ) ELSE (
   !ZIP_EXE_PATH! !ZIP_OPTS! a !ARCHIVE_PATH! !GIT_DIR!
 
   IF ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 4P1Z2: archive_create
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 4P1Z2: archive_create
     GOTO :exit_code_1
   )
 
-  ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 9F3H1: archive_create: !ARCHIVE_PATH!
+  ECHO 1>&2%LOG_PREFIX%SUCCESS: 9F3H1: archive_create: !ARCHIVE_PATH!
 )
 
 IF NOT [!ARCHIVE_PATH!] == [""] IF [!OLD_MOVE_FLAG!] == ["1"] (
   IF EXIST !ARCHIVE_OLD_PATH! (
     IF NOT [!OLD_MOVE_DEL_FLAG!] == ["1"] (
-      ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 3W9U4: archive_old_keep: !ARCHIVE_OLD_PATH!
+      ECHO 1>&2%LOG_PREFIX%SUCCESS: 3W9U4: archive_old_keep: !ARCHIVE_OLD_PATH!
     ) ELSE (
-      ECHO 1>&2# +++++ [aoik_backup_git] STEP: 1K7D2: archive_old_delete: !ARCHIVE_OLD_PATH!
+      ECHO 1>&2%LOG_PREFIX%STEP: 1K7D2: archive_old_delete: !ARCHIVE_OLD_PATH!
       DEL /F /Q !ARCHIVE_OLD_PATH!
 
       IF ERRORLEVEL 1 (
-        ECHO 1>&2# +++++ [aoik_backup_git] FAILURE: 5Q3J6: archive_old_delete: !ARCHIVE_OLD_PATH!
+        ECHO 1>&2%LOG_PREFIX%FAILURE: 5Q3J6: archive_old_delete: !ARCHIVE_OLD_PATH!
         GOTO :exit_code_1
       )
 
-      ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 2Y4N3: archive_old_delete: !ARCHIVE_OLD_PATH!
+      ECHO 1>&2%LOG_PREFIX%SUCCESS: 2Y4N3: archive_old_delete: !ARCHIVE_OLD_PATH!
     )
   )
 )
 
-ECHO 1>&2# +++++ [aoik_backup_git] SUCCESS: 8A1R3: all
+ECHO 1>&2%LOG_PREFIX%SUCCESS: 8A1R3: all
 EXIT /B 0

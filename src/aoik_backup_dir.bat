@@ -673,9 +673,9 @@ SET VERSION_FLAG="!--version!"
 
 SET DRY_RUN_FLAG="!--dry-run!"
 
-ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 8B4U2: help_flag_check
+ECHO 1>&2%LOG_PREFIX%STEP: 8B4U2: help_flag_check
 IF [!HELP_FLAG!] == ["1"] (
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 6E3Z7: help_show
+  ECHO 1>&2%LOG_PREFIX%STEP: 6E3Z7: help_show
   ECHO aoik_backup_dir.bat _OPTIONS_
   ECHO.
   ECHO `_OPTIONS_`:
@@ -785,17 +785,17 @@ IF [!HELP_FLAG!] == ["1"] (
   GOTO :exit_code_0
 )
 
-ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 1Y4V8: version_flag_check
+ECHO 1>&2%LOG_PREFIX%STEP: 1Y4V8: version_flag_check
 IF [!VERSION_FLAG!] == ["1"] (
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 2H9J3: version_show
+  ECHO 1>&2%LOG_PREFIX%STEP: 2H9J3: version_show
   ECHO !VERSION!
   GOTO :exit_code_0
 )
 
-ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 9R6N2: opts_show
+ECHO 1>&2%LOG_PREFIX%STEP: 9R6N2: opts_show
 SET - >&2
 
-ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 6S9T2: args_show
+ECHO 1>&2%LOG_PREFIX%STEP: 6S9T2: args_show
 ECHO 1>&2SRC_DIR: !SRC_DIR!
 ECHO 1>&2ARCHIVE_PATH: !ARCHIVE_PATH!
 ECHO 1>&2ARCHIVE_OLD_PATH: !ARCHIVE_OLD_PATH!
@@ -819,155 +819,155 @@ ECHO 1>&2HELP_FLAG: !HELP_FLAG!
 ECHO 1>&2VERSION_FLAG: !VERSION_FLAG!
 ECHO 1>&2DRY_RUN_FLAG: !DRY_RUN_FLAG!
 
-ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 2F3O6: dry_run_flag_check
+ECHO 1>&2%LOG_PREFIX%STEP: 2F3O6: dry_run_flag_check
 IF [!DRY_RUN_FLAG!] == ["1"] (
-  ECHO 1>&2# +++++ [aoik_backup_dir] SUCCESS: 5C9E7: dry_run
+  ECHO 1>&2%LOG_PREFIX%SUCCESS: 5C9E7: dry_run
   GOTO :exit_code_0
 )
 
-ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 1E9A6: src_dir_path_check
+ECHO 1>&2%LOG_PREFIX%STEP: 1E9A6: src_dir_path_check
 IF NOT EXIST !SRC_DIR!\ (
-  ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 2R7M9: src_dir_not_exists: !SRC_DIR!
+  ECHO 1>&2%LOG_PREFIX%FAILURE: 2R7M9: src_dir_not_exists: !SRC_DIR!
   GOTO :exit_code_1
 )
 
-ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 2X4Q3: archive_path_check
+ECHO 1>&2%LOG_PREFIX%STEP: 2X4Q3: archive_path_check
 IF [!ARCHIVE_PATH!] == [""] (
-  ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 3Q8G4: archive_path_empty
+  ECHO 1>&2%LOG_PREFIX%FAILURE: 3Q8G4: archive_path_empty
   GOTO :exit_code_1
 )
 
-ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 3W1M8: archive_old_path_check
+ECHO 1>&2%LOG_PREFIX%STEP: 3W1M8: archive_old_path_check
 IF [!ARCHIVE_OLD_PATH!] == [""] (
-  ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 1T8V6: archive_old_path_empty
+  ECHO 1>&2%LOG_PREFIX%FAILURE: 1T8V6: archive_old_path_empty
   GOTO :exit_code_1
 )
 
-ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 1Z6O8: mode_check
+ECHO 1>&2%LOG_PREFIX%STEP: 1Z6O8: mode_check
 IF [!MODE!] == [""] (
-  ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 2G9N4: mode_empty
+  ECHO 1>&2%LOG_PREFIX%FAILURE: 2G9N4: mode_empty
   GOTO :exit_code_1
 )
 
-ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 1G4O3: old_move_postfix_check
+ECHO 1>&2%LOG_PREFIX%STEP: 1G4O3: old_move_postfix_check
 IF [!OLD_MOVE_POSTFIX!] == [""] (
-  ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 2U6E9: old_move_postfix_empty
+  ECHO 1>&2%LOG_PREFIX%FAILURE: 2U6E9: old_move_postfix_empty
   GOTO :exit_code_1
 )
 
 IF [!MODE!] == ["7Z"] (
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 6R2U9: 7z_exe_check
+  ECHO 1>&2%LOG_PREFIX%STEP: 6R2U9: 7z_exe_check
   CALL !ZIP_EXE_PATH! >NUL
 
   IF ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 7C4P8: 7z_exe_path_invalid: !ZIP_EXE_PATH!
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 7C4P8: 7z_exe_path_invalid: !ZIP_EXE_PATH!
     GOTO :exit_code_1
   )
 ) ELSE IF [!MODE!] == ["FIND_7Z"] (
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 2D9Z3: find_exe_is_from_windows_check
+  ECHO 1>&2%LOG_PREFIX%STEP: 2D9Z3: find_exe_is_from_windows_check
   CALL !FIND_EXE_PATH! --version 2>&1 >NUL | findstr.exe /C:"FIND: Parameter format not correct"
 
   IF NOT ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 3S1X7: find_exe_is_from_windows_not_cygwin: !FIND_EXE_PATH!
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 3S1X7: find_exe_is_from_windows_not_cygwin: !FIND_EXE_PATH!
     GOTO :exit_code_1
   )
 
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 9I4W6: find_exe_check
+  ECHO 1>&2%LOG_PREFIX%STEP: 9I4W6: find_exe_check
   CALL !FIND_EXE_PATH! --version
 
   IF ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 1O6D2: find_exe_path_invalid: !FIND_EXE_PATH!
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 1O6D2: find_exe_path_invalid: !FIND_EXE_PATH!
     GOTO :exit_code_1
   )
 
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 4A5B2: 7z_exe_check
+  ECHO 1>&2%LOG_PREFIX%STEP: 4A5B2: 7z_exe_check
   CALL !ZIP_EXE_PATH! >NUL
 
   IF ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 5R6J7: 7z_exe_path_invalid: !ZIP_EXE_PATH!
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 5R6J7: 7z_exe_path_invalid: !ZIP_EXE_PATH!
     GOTO :exit_code_1
   )
 ) ELSE IF [!MODE!] == ["FIND_GIT_7Z"] (
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 4W5Q1: find_exe_is_from_windows_check
+  ECHO 1>&2%LOG_PREFIX%STEP: 4W5Q1: find_exe_is_from_windows_check
   CALL !FIND_EXE_PATH! --version 2>&1 | findstr.exe /C:"FIND: Parameter format not correct" >NUL 2>NUL
 
   IF NOT ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 1N2D3: find_exe_is_from_windows_not_cygwin: !FIND_EXE_PATH!
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 1N2D3: find_exe_is_from_windows_not_cygwin: !FIND_EXE_PATH!
     GOTO :exit_code_1
   )
 
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 5J2U3: find_exe_check
+  ECHO 1>&2%LOG_PREFIX%STEP: 5J2U3: find_exe_check
   CALL !FIND_EXE_PATH! --version
 
   IF ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 3Z4E5: find_exe_path_invalid: !FIND_EXE_PATH!
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 3Z4E5: find_exe_path_invalid: !FIND_EXE_PATH!
     GOTO :exit_code_1
   )
 
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 7M8X5: test_exe_check
+  ECHO 1>&2%LOG_PREFIX%STEP: 7M8X5: test_exe_check
   CALL !TEST_EXE_PATH! 1
 
   IF ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 8N3T2: test_exe_path_invalid: !TEST_EXE_PATH!
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 8N3T2: test_exe_path_invalid: !TEST_EXE_PATH!
     GOTO :exit_code_1
   )
 
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 9E6H2: grep_exe_check
+  ECHO 1>&2%LOG_PREFIX%STEP: 9E6H2: grep_exe_check
   CALL !GREP_EXE_PATH! --version
 
   IF ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 9I4R7: grep_exe_path_invalid: !GREP_EXE_PATH!
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 9I4R7: grep_exe_path_invalid: !GREP_EXE_PATH!
     GOTO :exit_code_1
   )
 
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 1A8Y7: aoik_backup_git_bat_check
+  ECHO 1>&2%LOG_PREFIX%STEP: 1A8Y7: aoik_backup_git_bat_check
   CALL !AOIK_BACKUP_GIT_BAT_PATH! --version
 
   IF ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 1W5K2: aoik_backup_git_bat_path_invalid: !AOIK_BACKUP_GIT_BAT_PATH!
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 1W5K2: aoik_backup_git_bat_path_invalid: !AOIK_BACKUP_GIT_BAT_PATH!
     GOTO :exit_code_1
   )
 
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 4S7O5: 7z_exe_check
+  ECHO 1>&2%LOG_PREFIX%STEP: 4S7O5: 7z_exe_check
   CALL !ZIP_EXE_PATH! >NUL
 
   IF ERRORLEVEL 1 (
-    ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 5K8E3: 7z_exe_path_invalid: !ZIP_EXE_PATH!
+    ECHO 1>&2%LOG_PREFIX%FAILURE: 5K8E3: 7z_exe_path_invalid: !ZIP_EXE_PATH!
     GOTO :exit_code_1
   )
 ) ELSE (
-  ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 6E4U2: mode_invalid: !MODE!
+  ECHO 1>&2%LOG_PREFIX%FAILURE: 6E4U2: mode_invalid: !MODE!
   GOTO :exit_code_1
 )
 
 IF [!OLD_MOVE_FLAG!] == ["1"] (
   IF EXIST !ARCHIVE_PATH! (
     IF EXIST !ARCHIVE_OLD_PATH! (
-      ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 3S5C4: archive_old_old_delete: !ARCHIVE_OLD_PATH!
+      ECHO 1>&2%LOG_PREFIX%STEP: 3S5C4: archive_old_old_delete: !ARCHIVE_OLD_PATH!
       DEL /F /Q !ARCHIVE_OLD_PATH!
 
       IF ERRORLEVEL 1 (
-        ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 4W2Y9: archive_old_old_delete: !ARCHIVE_OLD_PATH!
+        ECHO 1>&2%LOG_PREFIX%FAILURE: 4W2Y9: archive_old_old_delete: !ARCHIVE_OLD_PATH!
         GOTO :exit_code_1
       )
     )
 
-    ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 6P2I4: archive_old_move
+    ECHO 1>&2%LOG_PREFIX%STEP: 6P2I4: archive_old_move
     MOVE !ARCHIVE_PATH! !ARCHIVE_OLD_PATH!
 
     IF ERRORLEVEL 1 (
-      ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 7Y8X1: archive_old_move: !ARCHIVE_OLD_PATH!
+      ECHO 1>&2%LOG_PREFIX%FAILURE: 7Y8X1: archive_old_move: !ARCHIVE_OLD_PATH!
       GOTO :exit_code_1
     )
 
-    ECHO 1>&2# +++++ [aoik_backup_dir] SUCCESS: 8U3L4: archive_old_move: !ARCHIVE_OLD_PATH!
+    ECHO 1>&2%LOG_PREFIX%SUCCESS: 8U3L4: archive_old_move: !ARCHIVE_OLD_PATH!
   )
 )
 
 IF [!MODE!] == ["7Z"] (
   PUSHD !SRC_DIR!
 
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 8P6H3: archive_create
+  ECHO 1>&2%LOG_PREFIX%STEP: 8P6H3: archive_create
   REM # `-spf` keeps the path prefix.
   !ZIP_EXE_PATH! !ZIP_OPTS! -spf a !ARCHIVE_PATH! "."
 
@@ -977,7 +977,7 @@ IF [!MODE!] == ["7Z"] (
 ) ELSE IF [!MODE!] == ["FIND_7Z"] (
   PUSHD !SRC_DIR!
 
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 6V2X9: archive_create
+  ECHO 1>&2%LOG_PREFIX%STEP: 6V2X9: archive_create
   REM # `-spf` keeps the path prefix.
   !FIND_EXE_PATH! "." !FIND_OPTS! -exec !ZIP_EXE_PATH! !ZIP_OPTS! -spf a !ARCHIVE_PATH! {} +
 
@@ -996,16 +996,16 @@ IF [!MODE!] == ["7Z"] (
   )
 
   IF [!GIT_RUN!] == ["1"] (
-    ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 3N8M9: aoik_backup_git_run
+    ECHO 1>&2%LOG_PREFIX%STEP: 3N8M9: aoik_backup_git_run
     !FIND_EXE_PATH! "." !FIND_OPTS! -type "d" -exec !TEST_EXE_PATH! -d "{}/.git" ";" -exec cmd.exe /C "1>&2" ECHO # +++++ [aoik_backup_dir] STEP: 9R4V3: aoik_backup_git_run_for_repo: "{}" ";" "(" -exec !AOIK_BACKUP_GIT_BAT_PATH! --src "{}" --git-add !GIT_ADD_FLAG! --git-commit !GIT_COMMIT_FLAG! --git-commit-msg !GIT_COMMIT_MSG! --git-gc !GIT_GC_FLAG! --git-exe !GIT_EXE_PATH! ";" -or -exec cmd.exe /C ECHO # +++++ [aoik_backup_dir] FAILURE: 2C9W3: aoik_backup_git_run_for_repo: "{}" ";" -quit ")" | !GREP_EXE_PATH! "\[aoik_backup_dir\] FAILURE: 2C9W3"
 
     IF NOT ERRORLEVEL 1 (
-      ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 1B8W3: aoik_backup_git_run
+      ECHO 1>&2%LOG_PREFIX%FAILURE: 1B8W3: aoik_backup_git_run
       GOTO :exit_code_1
     )
   )
 
-  ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 5E6X1: archive_create
+  ECHO 1>&2%LOG_PREFIX%STEP: 5E6X1: archive_create
   REM # `-spf` keeps the path prefix.
   !FIND_EXE_PATH! "." !FIND_OPTS! -type "d" -name ".git" -exec !ZIP_EXE_PATH! !ZIP_OPTS! -spf a !ARCHIVE_PATH! {} +
 
@@ -1013,34 +1013,34 @@ IF [!MODE!] == ["7Z"] (
 
   POPD
 ) ELSE (
-  ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 9Q2R1: mode_invalid: !MODE!
+  ECHO 1>&2%LOG_PREFIX%FAILURE: 9Q2R1: mode_invalid: !MODE!
   GOTO :exit_code_1
 )
 
 IF NOT [!error_level!] == [0] (
-  ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 1E8P5: archive_create
+  ECHO 1>&2%LOG_PREFIX%FAILURE: 1E8P5: archive_create
   GOTO :exit_code_1
 )
 
-ECHO 1>&2# +++++ [aoik_backup_dir] SUCCESS: 7Z5S9: archive_create: !ARCHIVE_PATH!
+ECHO 1>&2%LOG_PREFIX%SUCCESS: 7Z5S9: archive_create: !ARCHIVE_PATH!
 
 IF [!OLD_MOVE_FLAG!] == ["1"] (
   IF EXIST !ARCHIVE_OLD_PATH! (
     IF NOT [!OLD_MOVE_DEL_FLAG!] == ["1"] (
-      ECHO 1>&2# +++++ [aoik_backup_dir] SUCCESS: 3W1H7: archive_old_keep: !ARCHIVE_OLD_PATH!
+      ECHO 1>&2%LOG_PREFIX%SUCCESS: 3W1H7: archive_old_keep: !ARCHIVE_OLD_PATH!
     ) ELSE (
-      ECHO 1>&2# +++++ [aoik_backup_dir] STEP: 9K6T2: archive_old_delete: !ARCHIVE_OLD_PATH!
+      ECHO 1>&2%LOG_PREFIX%STEP: 9K6T2: archive_old_delete: !ARCHIVE_OLD_PATH!
       DEL /F /Q !ARCHIVE_OLD_PATH!
 
       IF ERRORLEVEL 1 (
-        ECHO 1>&2# +++++ [aoik_backup_dir] FAILURE: 1S3A8: archive_old_delete: !ARCHIVE_OLD_PATH!
+        ECHO 1>&2%LOG_PREFIX%FAILURE: 1S3A8: archive_old_delete: !ARCHIVE_OLD_PATH!
         GOTO :exit_code_1
       )
 
-      ECHO 1>&2# +++++ [aoik_backup_dir] SUCCESS: 2Z6Q9: archive_old_delete: !ARCHIVE_OLD_PATH!
+      ECHO 1>&2%LOG_PREFIX%SUCCESS: 2Z6Q9: archive_old_delete: !ARCHIVE_OLD_PATH!
     )
   )
 )
 
-ECHO 1>&2# +++++ [aoik_backup_dir] SUCCESS: 7S9W5: all
+ECHO 1>&2%LOG_PREFIX%SUCCESS: 7S9W5: all
 EXIT /B 0
