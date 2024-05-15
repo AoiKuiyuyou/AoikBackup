@@ -889,7 +889,7 @@ IF [!MODE!] == ["7Z"] (
   )
 ) ELSE IF [!MODE!] == ["FIND_GIT_7Z"] (
   ECHO 1>&2%LOG_PREFIX%STEP: 4W5Q1: find_exe_is_from_windows_check
-  CALL !FIND_EXE_PATH! --version 2>&1 | findstr.exe /C:"FIND: Parameter format not correct" >NUL 2>NUL
+  CALL !FIND_EXE_PATH! --version 2>&1 | findstr.exe /C:"FIND: Parameter format not correct" >NUL
 
   IF NOT ERRORLEVEL 1 (
     ECHO 1>&2%LOG_PREFIX%FAILURE: 1N2D3: find_exe_is_from_windows_not_cygwin: !FIND_EXE_PATH!
